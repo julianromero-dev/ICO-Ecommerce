@@ -1,30 +1,88 @@
 import './createaccount.css';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { auth, db } from '../../firebase';
+import { collection, addDoc } from 'firebase/firestore';
+import Swal from 'sweetalert2'; // 👈 Importación de SweetAlert2
+
 function CreateAccount() {
   const navigate = useNavigate();
+  const [form, setForm] = useState({
+    nombre: '',
+    apellido: '',
+    telefono: '',
+    email: '',
+    password: '',
+    confirmPassword: ''
+  });
+
+  const handleChange = e => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    if (form.password !== form.confirmPassword) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Las contraseñas no coinciden'
+      });
+      return;
+    }
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, form.email, form.password);
+      await addDoc(collection(db, 'usuarios'), {
+        uid: userCredential.user.uid,
+        nombre: form.nombre,
+        apellido: form.apellido,
+        telefono: form.telefono,
+        email: form.email
+      });
+
+      await Swal.fire({
+        icon: 'success',
+        title: 'Cuenta creada correctamente',
+        showConfirmButton: false,
+        timer: 1500
+      });
+
+      navigate('/login');
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error al crear la cuenta',
+        text: error.message
+      });
+    }
+  };
+
   return (
     <div className="overlay">
       <div className="container">
         <div className="close" onClick={() => navigate('/') }>&times;</div>
         <div className="logo">
-          <img className="logo-img" src="../src/assets/ICO-removebg-preview.png" alt="ICO Logo" onError={e => {e.target.onerror=null; e.target.src='../src/assets/ICO-removebg-preview.png';}} />
+          <img className="logo-img" src="/IMG/ICO-removebg-preview.png" alt="ICO Logo" />
         </div>
         <h2>CREAR CUENTA</h2>
-        <form autoComplete="off">
+        <form autoComplete="off" onSubmit={handleSubmit}>
           <div className="form-group">
-            <input type="text" placeholder="JUAN JOSE" required />
+            <input name="nombre" type="text" placeholder="Nombre" value={form.nombre} onChange={handleChange} required />
           </div>
           <div className="form-group">
-            <input type="text" placeholder="VARGAS PIÑON" required />
+            <input name="apellido" type="text" placeholder="Apellido" value={form.apellido} onChange={handleChange} required />
           </div>
           <div className="form-group">
-            <input type="password" placeholder="Contraseña" required />
+            <input name="telefono" type="text" placeholder="Teléfono" value={form.telefono} onChange={handleChange} required />
           </div>
           <div className="form-group">
-            <input type="password" placeholder="Confirmar contraseña" required />
+            <input name="email" type="email" placeholder="Correo electrónico" value={form.email} onChange={handleChange} required />
           </div>
           <div className="form-group">
-            <input type="text" placeholder="Teléfono" required />
+            <input name="password" type="password" placeholder="Contraseña" value={form.password} onChange={handleChange} required />
+          </div>
+          <div className="form-group">
+            <input name="confirmPassword" type="password" placeholder="Confirmar contraseña" value={form.confirmPassword} onChange={handleChange} required />
           </div>
           <div className="form-actions">
             <button type="submit">CREAR CUENTA</button>
@@ -33,7 +91,7 @@ function CreateAccount() {
         </form>
         <div className="google-login">
           <span>INICIAR SESION CON</span>
-          <img src="../src/assets/icons8-google.svg" alt="Google login" style={{width:'32px'}} />
+          <img src="/IMG/icons8-google.svg" alt="Google login" style={{width:'32px'}} />
         </div>
       </div>
       <div className="redes">

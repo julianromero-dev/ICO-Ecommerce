@@ -1,13 +1,33 @@
 import { useNavigate } from 'react-router-dom';
 import './resetpassword.css';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { auth } from '../../firebase';
+import Swal from 'sweetalert2';
 
 function ResetPassword() {
   const navigate = useNavigate();
 
-  const handleReset = (e) => {
+  const handleReset = async (e) => {
     e.preventDefault();
-    // Aquí va la lógica de Firebase para resetear contraseña
-    alert('Si el correo existe, se enviarán instrucciones para restablecer la contraseña.');
+    const email = e.target.email.value;
+
+    try {
+      await sendPasswordResetEmail(auth, email);
+      Swal.fire({
+        icon: 'success',
+        title: 'Correo enviado',
+        text: 'Revisa tu bandeja de entrada para restablecer tu contraseña.',
+        confirmButtonText: 'Aceptar',
+      });
+      navigate('/login');
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: error.message,
+        confirmButtonText: 'Cerrar',
+      });
+    }
   };
 
   return (

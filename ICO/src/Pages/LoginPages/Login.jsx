@@ -1,18 +1,57 @@
 import '../../App.css';
 import './loginpages.css';
-
 import { useNavigate } from 'react-router-dom';
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth } from '../../firebase';
+import Swal from 'sweetalert2'; // 👈 Importación
 
 function Login() {
   const navigate = useNavigate();
 
   function handleLogin(e) {
     e.preventDefault();
-    // Aquí va la lógica de Firebase para login
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Inicio de sesión exitoso',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        navigate('/inicio');
+      })
+      .catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error al iniciar sesión',
+          text: error.message
+        });
+      });
   }
 
+  const provider = new GoogleAuthProvider();
+
   function loginWithGoogle() {
-    // Aquí va la lógica de Firebase para login con Google
+    signInWithPopup(auth, provider)
+      .then(() => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Inicio de sesión con Google exitoso',
+          showConfirmButton: false,
+          timer: 1500
+        });
+        navigate('/inicio');
+      })
+      .catch(error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error con Google',
+          text: error.message
+        });
+      });
   }
 
   return (
@@ -33,11 +72,12 @@ function Login() {
         <h2>INICIAR SESION</h2>
         <form autoComplete="off" onSubmit={handleLogin}>
           <div className="input-container">
-            <input id="email" type="email" placeholder="juan.jose@gmail.com" required />
+            <input id="email" name="email" type="email" placeholder="juan.jose@gmail.com" required />
           </div>
           <div className="input-container">
             <input
               id="password"
+              name="password"
               type="password"
               placeholder="******************"
               required
@@ -59,6 +99,7 @@ function Login() {
             src="../src/assets/icons8-google.svg"
             alt="Google login"
             onClick={loginWithGoogle}
+            style={{ cursor: 'pointer' }}
           />
         </div>
       </div>
