@@ -1,0 +1,187 @@
+/* Estilo general */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  /* background eliminado para evitar conflicto con App.css */
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+/* Overlay transparente */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* Formulario centrado más pequeño */
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  padding: 32px 28px;
+  max-width: 340px;
+  width: 90vw;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  z-index: 2;
+  text-align: center;
+}
+
+/* Botón cerrar */
+.close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  font-size: 22px;
+  font-weight: bold;
+  color: #1976d2;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.close:hover {
+  color: #0d47a1;
+}
+
+/* Logo */
+.logo-img {
+  width: 90px;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 2px 8px rgba(25,118,210,0.12));
+}
+
+/* Título */
+h2 {
+  font-size: 1.5rem;
+  color: #1976d2;
+  margin: 12px 0 24px;
+}
+
+/* Campos de formulario */
+.input-container {
+  position: relative;
+  margin-bottom: 20px;
+}
+.input-container input {
+  width: 100%;
+  padding: 12px 40px 12px 14px;
+  border: 1.5px solid #1976d2;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  background: rgba(255,255,255,0.85);
+  outline: none;
+  box-sizing: border-box;
+  color: #000;
+}
+.input-container input::placeholder {
+  color: #1976d2;
+}
+
+/* Íconos dentro del input */
+.input-icon {
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  pointer-events: none;
+  opacity: 0.8;
+}
+
+/* Enlace contraseña */
+.forgot-password {
+  text-align: left;
+  font-size: 0.85rem;
+  color: #222;
+  text-decoration: underline;
+  margin-bottom: 12px;
+  cursor: pointer;
+}
+
+/* Botones */
+.form-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 10px;
+  background: #1976d2;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease-in-out;
+}
+button:hover {
+  background: #1252a6;
+}
+
+/* Login con Google */
+.google-login {
+  margin-top: 16px;
+  text-align: center;
+}
+.google-login span {
+  font-size: 0.85rem;
+  color: #333;
+  margin-bottom: 4px;
+  display: block;
+}
+.google-login img {
+  width: 32px;
+  cursor: pointer;
+}
+
+/* Redes */
+.redes {
+  position: fixed;
+  left: 20px;
+  bottom: 20px;
+  z-index: 3;
+  color: #fff;
+}
+.redes span {
+  font-size: 0.85rem;
+}
+.redes-icons {
+  margin-top: 5px;
+  display: flex;
+  gap: 10px;
+}
+.redes-icons img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #fff;
+  object-fit: cover;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  transition: transform 0.2s;
+}
+.redes-icons img:hover {
+  transform: scale(1.1);
+}
+
+/* Responsive */
+@media (max-width: 400px) {
+  .container {
+    width: 92vw;
+    padding: 24px 18px;
+  }
+  .input-container input {
+    padding: 10px 38px 10px 12px;
+  }
+}
