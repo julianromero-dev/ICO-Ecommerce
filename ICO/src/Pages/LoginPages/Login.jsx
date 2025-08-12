@@ -3,11 +3,12 @@ import './loginpages.css';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../../firebase';
-import Swal from 'sweetalert2'; // 👈 Importación
+import Swal from 'sweetalert2'; // Importación
 
 function Login() {
   const navigate = useNavigate();
 
+  // Manejo de inicio de sesión con email y contraseña
   function handleLogin(e) {
     e.preventDefault();
     const email = e.target.email.value;
@@ -21,7 +22,7 @@ function Login() {
           showConfirmButton: false,
           timer: 1500
         });
-        navigate('/inicio');
+        navigate('/inicio'); // Redirige al inicio
       })
       .catch(error => {
         Swal.fire({
@@ -32,17 +33,22 @@ function Login() {
       });
   }
 
+  // Iniciar sesión con Google
   const provider = new GoogleAuthProvider();
 
   function loginWithGoogle() {
     signInWithPopup(auth, provider)
-      .then(() => {
+      .then(result => {
+        // El objeto 'result' contiene los datos del usuario
+        const user = result.user;
         Swal.fire({
           icon: 'success',
           title: 'Inicio de sesión con Google exitoso',
           showConfirmButton: false,
           timer: 1500
         });
+
+        // Redirige al usuario a la página de inicio
         navigate('/inicio');
       })
       .catch(error => {

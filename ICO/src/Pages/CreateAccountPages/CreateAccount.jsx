@@ -1,8 +1,8 @@
 import './createaccount.css';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { createUserWithEmailAndPassword } from 'firebase/auth';
-import { auth, db } from '../../firebase';
+import { createUserWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
+import { auth, db, googleProvider } from '../../firebase';
 import { collection, addDoc } from 'firebase/firestore';
 import Swal from 'sweetalert2'; // 👈 Importación de SweetAlert2
 
@@ -57,12 +57,40 @@ function CreateAccount() {
     }
   };
 
+  // Función para iniciar sesión con Google
+  const loginWithGoogle = async () => {
+    try {
+      const userCredential = await signInWithPopup(auth, googleProvider);
+      // Agregar usuario a Firestore (si es necesario)
+      await addDoc(collection(db, 'usuarios'), {
+        uid: userCredential.user.uid,
+        nombre: userCredential.user.displayName, // Nombre de usuario de Google
+        email: userCredential.user.email
+      });
+
+      await Swal.fire({
+        icon: 'success',
+        title: 'Inicio de sesión con Google exitoso',
+        showConfirmButton: false,
+        timer: 1500
+      });
+
+      navigate('/inicio'); // Redirige a la página de inicio
+    } catch (error) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error con Google',
+        text: error.message
+      });
+    }
+  };
+
   return (
     <div className="overlay">
       <div className="container">
         <div className="close" onClick={() => navigate('/') }>&times;</div>
         <div className="logo">
-          <img className="logo-img" src="/IMG/ICO-removebg-preview.png" alt="ICO Logo" />
+          <img className="logo-img" src="./src/assets/ICO-removebg-preview.png" alt="ICO Logo" />
         </div>
         <h2>CREAR CUENTA</h2>
         <form autoComplete="off" onSubmit={handleSubmit}>
@@ -91,7 +119,12 @@ function CreateAccount() {
         </form>
         <div className="google-login">
           <span>INICIAR SESION CON</span>
-          <img src="/IMG/icons8-google.svg" alt="Google login" style={{width:'32px'}} />
+          <img 
+            src="./src/assets/icons8-google.svg" 
+            alt="Google login" 
+            onClick={loginWithGoogle} 
+            style={{width:'32px', cursor: 'pointer'}}
+          />
         </div>
       </div>
       <div className="redes">

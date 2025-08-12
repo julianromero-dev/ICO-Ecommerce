@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 function ResetPassword() {
   const navigate = useNavigate();
 
+  // Función para manejar el envío del correo de restablecimiento
   const handleReset = async (e) => {
     e.preventDefault();
     const email = e.target.email.value;
@@ -19,7 +20,7 @@ function ResetPassword() {
         text: 'Revisa tu bandeja de entrada para restablecer tu contraseña.',
         confirmButtonText: 'Aceptar',
       });
-      navigate('/login');
+      navigate('/login'); // Redirige a la página de login
     } catch (error) {
       Swal.fire({
         icon: 'error',
@@ -38,15 +39,10 @@ function ResetPassword() {
           <img className="logo-img" src="../src/assets/ICO-removebg-preview.png" alt="ICO Logo" />
         </div>
         <h2>RESTABLECER CONTRASEÑA</h2>
-        <form autoComplete="off" onSubmit={handleReset}>
-          <div className="form-group">
-            <input type="email" name="email" placeholder="Correo electrónico" required autoFocus />
-          </div>
-          <div className="form-actions">
-            <button type="submit">ENVIAR INSTRUCCIONES</button>
-            <button type="button" onClick={() => navigate('/')}>CANCELAR</button>
-          </div>
-        </form>
+        
+        {/* Aquí es donde se coloca el formulario */}
+        <FormPassword handleReset={handleReset} />
+
       </div>
       <div className="redes">
         <span>NUESTRAS REDES</span>
@@ -57,6 +53,27 @@ function ResetPassword() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Formulario para el restablecimiento de contraseña
+function FormPassword({ handleReset }) {
+  return (
+    <form autoComplete="off" onSubmit={handleReset}>
+      <div className="form-group">
+        <input 
+          type="email" 
+          name="email" 
+          placeholder="Correo electrónico" 
+          required 
+          autoFocus
+        />
+      </div>
+      <div className="form-actions">
+        <button type="submit">ENVIAR INSTRUCCIONES</button>
+        <button type="button" onClick={() => navigate('/')}>CANCELAR</button>
+      </div>
+    </form>
   );
 }
 
