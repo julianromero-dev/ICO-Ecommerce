@@ -1,4 +1,3 @@
-
 function App() {
   return (
     <div className="overlay">
@@ -13,6 +12,9 @@ function App() {
           </a>
           <a href="/create-account">
             <button type="button">Crear Cuenta</button>
+          </a>
+          <a href="/inicio">
+            <button type="button">Iniciar sin una cuenta</button>
           </a>
         </div>
       </div>

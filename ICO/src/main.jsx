@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
+import LocalidadForm from '../src/Pages/PersonalInformation/LocalidadForm';
 // Importación de los componentes principales
 import App from './App';
 import CreateAccount from './Pages/CreateAccountPages/CreateAccount';
@@ -21,9 +21,12 @@ ReactDOM.createRoot(document.getElementById('root')).render(
         <Route path="/login" element={<Login />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/inicio" element={<HomePage />} />
+        <Route path="/direccion" element={<LocalidadForm />} />
+
 
         {/* Agrega más rutas si es necesario */}
       </Routes>
     </BrowserRouter>
+    
   </React.StrictMode>
 );

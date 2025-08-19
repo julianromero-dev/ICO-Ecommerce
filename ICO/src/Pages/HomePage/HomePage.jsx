@@ -1,8 +1,8 @@
-import React from 'react';
+import './HomePage.css';
 
 function HomePage() {
   return (
-    <div>
+    <div className='homepage'>
       <h1>Bienvenido a ICO Ecommerce</h1>
     </div>
   );

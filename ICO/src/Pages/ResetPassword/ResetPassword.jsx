@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import './resetpassword.css';
+import './resetpassword.css';  // Importa los estilos de este componente
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { auth } from '../../firebase';
 import Swal from 'sweetalert2';

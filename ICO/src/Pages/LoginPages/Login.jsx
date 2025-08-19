@@ -1,9 +1,8 @@
-import '../../App.css';
-import './loginpages.css';
 import { useNavigate } from 'react-router-dom';
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth } from '../../firebase';
-import Swal from 'sweetalert2'; // Importación
+import Swal from 'sweetalert2'; 
+import './loginpages.css'; // Asegúrate de que este archivo exista
 
 function Login() {
   const navigate = useNavigate();
@@ -63,7 +62,7 @@ function Login() {
   return (
     <div className="overlay">
       <div className="container">
-        <div className="close" onClick={() => navigate('/create-account')}>&times;</div>
+        <div className="close" onClick={() => navigate('/')}>&times;</div>
         <div className="logo">
           <img
             className="logo-img"
